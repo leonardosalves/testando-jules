@@ -584,8 +584,26 @@ function renderRelatedHouses() {
 // Menu mobile
 function toggleMenu() {
     const navList = document.querySelector('.nav-list');
+    const menuToggle = document.getElementById('menuToggle');
+    const icon = menuToggle ? menuToggle.querySelector('i') : null;
+
     if (navList) {
-        navList.classList.toggle('active');
+        const isActive = navList.classList.toggle('active');
+
+        if (menuToggle) {
+            menuToggle.setAttribute('aria-expanded', isActive);
+            menuToggle.setAttribute('aria-label', isActive ? 'Fechar menu' : 'Abrir menu');
+
+            if (icon) {
+                if (isActive) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-xmark');
+                } else {
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                }
+            }
+        }
     }
 }
 
