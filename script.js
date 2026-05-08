@@ -439,6 +439,9 @@ function renderCarDetail() {
                         <div class="ad-share-actions" style="margin: 10px 0 16px;">
                             <div style="font-weight:800; margin-bottom:8px;">Anunciar este carro</div>
                             <div style="display:flex; flex-wrap:wrap; gap:10px;">
+                                <button class="btn-share" type="button" onclick="exportProductAsImage('car')">
+                                    <i class="fas fa-mobile-alt"></i> GERAR CARD STORIES (NOVO)
+                                </button>
                                 <button class="btn btn-primary" type="button" onclick="downloadAdPng('car', ${car.id}, '1080x1350')">
                                     <i class="fas fa-image"></i> INSTAGRAM / WHATS APP / THREADS
                                 </button>
@@ -532,6 +535,9 @@ function renderHouseDetail() {
                         <div class="ad-share-actions" style="margin: 10px 0 16px;">
                             <div style="font-weight:800; margin-bottom:8px;">Anunciar este imóvel</div>
                             <div style="display:flex; flex-wrap:wrap; gap:10px;">
+                                <button class="btn-share" type="button" onclick="exportProductAsImage('house')">
+                                    <i class="fas fa-mobile-alt"></i> GERAR CARD STORIES (NOVO)
+                                </button>
                                 <button class="btn btn-primary" type="button" onclick="downloadAdPng('house', ${house.id}, '1080x1350')">
                                     <i class="fas fa-image"></i> INSTAGRAM / WHATS APP / THREADS
                                 </button>
@@ -2375,3 +2381,89 @@ window.toggleSoldCar = toggleSoldCar;
 window.toggleSoldHouse = toggleSoldHouse;
 window.setCarEditing = setCarEditing;
 window.setHouseEditing = setHouseEditing;
+
+// Novas funções para exportação de card com html2canvas
+async function exportProductAsImage(type) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = parseInt(urlParams.get('id'));
+    const item = type === 'car' ? cars.find(c => c.id === id) : houses.find(h => h.id === id);
+
+    if (!item) return;
+
+    const shareCard = document.getElementById('shareCard');
+    const shareCardImage = document.getElementById('shareCardImage');
+    const shareCardTitle = document.getElementById('shareCardTitle');
+    const shareCardPrice = document.getElementById('shareCardPrice');
+    const shareCardSpecs = document.getElementById('shareCardSpecs');
+
+    // Preencher dados básicos
+    shareCardTitle.innerText = item.title;
+    shareCardPrice.innerText = formatPrice(item.price);
+
+    // Usar a primeira imagem disponível
+    const mainImg = (item.images && item.images.length > 0) ? item.images[0] : item.image;
+    shareCardImage.src = mainImg;
+
+    // Preencher especificações
+    let specsHtml = '';
+    if (type === 'car') {
+        specsHtml = `
+            <div class="share-card-spec-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>${item.year}</span>
+            </div>
+            <div class="share-card-spec-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>${item.mileage.toLocaleString()} km</span>
+            </div>
+            <div class="share-card-spec-item">
+                <i class="fas fa-gas-pump"></i>
+                <span>${item.fuel}</span>
+            </div>
+            <div class="share-card-spec-item">
+                <i class="fas fa-cog"></i>
+                <span>${item.transmission}</span>
+            </div>
+        `;
+    } else {
+        specsHtml = `
+            <div class="share-card-spec-item">
+                <i class="fas fa-home"></i>
+                <span>${item.type}</span>
+            </div>
+            <div class="share-card-spec-item">
+                <i class="fas fa-expand-arrows-alt"></i>
+                <span>${item.area} m²</span>
+            </div>
+            <div class="share-card-spec-item">
+                <i class="fas fa-bed"></i>
+                <span>${item.bedrooms} Quartos</span>
+            </div>
+            <div class="share-card-spec-item">
+                <i class="fas fa-bath"></i>
+                <span>${item.bathrooms} Banheiros</span>
+            </div>
+        `;
+    }
+    shareCardSpecs.innerHTML = specsHtml;
+
+    // Aguardar o carregamento da imagem para o canvas capturar corretamente
+    await new Promise(resolve => {
+        if (shareCardImage.complete) resolve();
+        else shareCardImage.onload = resolve;
+    });
+
+    // Usar html2canvas para gerar a imagem
+    html2canvas(shareCard, {
+        useCORS: true,
+        scale: 2, // Melhor qualidade
+        backgroundColor: null
+    }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `moisauto-${type}-${id}-stories.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    });
+}
+
+window.exportProductAsImage = exportProductAsImage;
