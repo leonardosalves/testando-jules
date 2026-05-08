@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoisAuto Agenciador - Carros e Casas</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="assets/logo.png" alt="MoisAuto Agenciador" class="logo-image">
+                </a>
+            </div>
+            <nav class="nav" id="nav">
+                <ul class="nav-list">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="cars.html">Carros</a></li>
+                    <li><a href="houses.html">Casas</a></li>
+                    <li><a href="about.html">Sobre</a></li>
+                    <li><a href="contact.html">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="search-box mobile-search">
+                <button id="searchToggle" class="search-toggle"><i class="fas fa-search"></i></button>
+                <div class="search-expanded hidden" id="searchExpanded">
+                    <input type="text" id="searchInput" placeholder="Buscar...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            <div class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Encontre Seu Próximo Carro ou Casa dos Sonhos</h2>
+                <p>Os melhores veículos e imóveis com as melhores condições do mercado</p>
+                <div class="hero-buttons">
+                    <a href="cars.html" class="btn btn-primary">Ver Carros</a>
+                    <a href="houses.html" class="btn btn-secondary">Ver Casas</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Items -->
+    <section class="featured">
+        <div class="container">
+            <h2 class="section-title">Destaque da Semana</h2>
+            <div class="items-grid" id="featuredItems">
+                <!-- Items will be loaded by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="container">
+            <div class="about-content">
+                <h2>Por que escolher a MoisAuto Agenciador?</h2>
+                <div class="features">
+                    <div class="feature-card">
+                        <i class="fas fa-car"></i>
+                        <h3>Carros de Qualidade</h3>
+                        <p>Veículos revisados e garantidos com procedência</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-home"></i>
+                        <h3>Casas Selecionadas</h3>
+                        <p>Imóveis cuidadosamente escolhidos para você</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-handshake"></i>
+                        <h3>Financiamento</h3>
+                        <p>As melhores condições de pagamento do mercado</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Segurança</h3>
+                        <p>Transações seguras e documentação verificada</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">O que nossos clientes dizem</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p>"Excelente atendimento e encontrei o carro perfeito!"</p>
+                    <h4>- João Silva</h4>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Vendemos nossa casa rapidamente e com tranquilidade"</p>
+                    <h4>- Maria Oliveira</h4>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Profissionais sérios e transparentes. Recomendo!"</p>
+                    <h4>- Pedro Costa</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-info">
+        <div class="container">
+            <h2>Entre em Contato</h2>
+            <div class="contact-grid">
+                <div class="contact-item">
+<i class="fab fa-whatsapp"></i>
+            <h3>WhatsApp</h3>
+            <p>(51) 98057-8310</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-facebook"></i>
+                    <h3>Facebook</h3>
+                    <p>Moises Soares Alves</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-instagram"></i>
+                    <h3>Instagram</h3>
+                    <p>@moises_soares_alves</p>
+                 </div>
+                <div class="contact-item">
+                    <i class="fab fa-threads"></i>
+                    <h3>Threads</h3>
+                    <p>@moises_soares_alves</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>MoisAuto Agenciador</h3>
+                    <p>Seu carro e sua casa dos sonhos estão aqui</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="cars.html">Carros</a></li>
+                        <li><a href="houses.html">Casas</a></li>
+                        <li><a href="about.html">Sobre</a></li>
+                        <li><a href="contact.html">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Siga-nos</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-threads"></i></a>
+                        <a href="https://wa.me/5551980578310" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 MoisAuto Agenciador. Todos os direitos reservados.</p>
+                <p class="developer">Desenvolvido por Leonardo Soares Alves</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <a href="https://wa.me/5551980578310" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</body>
+</html>

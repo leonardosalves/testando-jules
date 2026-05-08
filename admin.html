@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - MoisAuto Agenciador</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="admin-body">
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <div class="admin-logo">
+                <a href="index.html" style="display: flex; align-items: center; text-decoration: none; color: white;">
+                    <img src="assets/logo.png" alt="MoisAuto" style="height: 35px; width: auto; margin-right: 10px;">
+                    <h2 style="margin: 0; font-size: 1.2rem;">Admin</h2>
+                </a>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="#dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="#cars"><i class="fas fa-car"></i> Carros</a></li>
+                    <li><a href="#houses"><i class="fas fa-home"></i> Casas</a></li>
+                    <li><a href="#messages"><i class="fas fa-envelope"></i> Mensagens</a></li>
+                    <li><a href="index.html"><i class="fas fa-external-link-alt"></i> Ver Site</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Painel Administrativo</h1>
+                <div class="admin-user">
+                    <span>Moises Soares Alves</span>
+                    <img src="https://via.placeholder.com/40" alt="Admin">
+                </div>
+            </header>
+
+            <section class="admin-content" id="dashboard">
+                <h2>Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-car"></i>
+                        <h3>Carros Cadastrados</h3>
+                        <p id="carCount">6</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-home"></i>
+                        <h3>Casas Cadastradas</h3>
+                        <p id="houseCount">6</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>Total de Itens</h3>
+                        <p id="totalCount">12</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-dollar-sign"></i>
+                        <h3>Valor Total Carros</h3>
+                        <p id="totalCarValue">R$ 0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-dollar-sign"></i>
+                        <h3>Valor Total Casas</h3>
+                        <p id="totalHouseValue">R$ 0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Valor Total Geral</h3>
+                        <p id="totalValue">R$ 0</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="recent-items">
+                        <h3>Carros Recentes</h3>
+                        <div class="recent-list" id="recentCars">
+                            <!-- Carros recentes serão carregados aqui -->
+                        </div>
+                    </div>
+                    <div class="recent-items">
+                        <h3>Casas Recentes</h3>
+                        <div class="recent-list" id="recentHouses">
+                            <!-- Casas recentes serão carregadas aqui -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <h3>Ações Rápidas</h3>
+                    <button class="btn btn-primary" onclick="showCarForm()"><i class="fas fa-plus"></i> Adicionar Carro</button>
+                    <button class="btn btn-secondary" onclick="showHouseForm()"><i class="fas fa-plus"></i> Adicionar Casa</button>
+                    <button class="btn btn-outline" onclick="exportData()"><i class="fas fa-download"></i> Exportar Dados</button>
+                </div>
+            </section>
+
+            <section class="admin-content hidden" id="cars">
+                <h2>Gerenciar Carros</h2>
+                <button class="btn btn-primary" onclick="showCarForm()"><i class="fas fa-plus"></i> Novo Carro</button>
+
+                <!-- Desktop (tabela) -->
+                <table class="admin-table admin-table-cars">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Imagem</th>
+                            <th>Título</th>
+                            <th>Preço</th>
+                            <th>Ano</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="carsTable">
+                        <!-- Cars will be loaded here -->
+                    </tbody>
+                </table>
+
+                <!-- Mobile (cards) -->
+                <div id="carsCards" class="admin-cards hidden">
+                    <!-- Car cards will be loaded here -->
+                </div>
+            </section>
+
+            <section class="admin-content hidden" id="houses">
+                <h2>Gerenciar Casas</h2>
+                <button class="btn btn-primary" onclick="showHouseForm()"><i class="fas fa-plus"></i> Nova Casa</button>
+
+                <!-- Desktop (tabela) -->
+                <table class="admin-table admin-table-houses">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Imagem</th>
+                            <th>Título</th>
+                            <th>Preço</th>
+                            <th>Localização</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="housesTable">
+                        <!-- Houses will be loaded here -->
+                    </tbody>
+                </table>
+
+                <!-- Mobile (cards) -->
+                <div id="housesCards" class="admin-cards hidden">
+                    <!-- House cards will be loaded here -->
+                </div>
+            </section>
+
+            <section class="admin-content hidden" id="messages">
+                <h2>Mensagens Recebidas</h2>
+                <div class="messages-list" id="messagesList">
+                    <!-- Messages will be displayed here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Car Form Modal -->
+    <div class="modal hidden" id="carModal">
+        <div class="modal-content">
+            <span class="close" onclick="hideModal('carModal')">&times;</span>
+            <h2 id="carFormTitle">Adicionar Novo Carro</h2>
+            <form id="carForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="carTitle">Título *</label>
+                        <input type="text" id="carTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="carBrand">Marca *</label>
+                        <input type="text" id="carBrand" list="brandList" placeholder="Digite para buscar..." required>
+                        <datalist id="brandList">
+                            <option value="Toyota">
+                            <option value="Honda">
+                            <option value="Ford">
+                            <option value="Chevrolet">
+                            <option value="Volkswagen">
+                            <option value="BMW">
+                            <option value="Mercedes-Benz">
+                            <option value="Audi">
+                            <option value="Fiat">
+                            <option value="Renault">
+                            <option value="Peugeot">
+                            <option value="Citroën">
+                            <option value="Mitsubishi">
+                            <option value="Nissan">
+                            <option value="Hyundai">
+                            <option value="Kia">
+                            <option value="Volvo">
+                            <option value="Land Rover">
+                            <option value="Jeep">
+                            <option value="Chrysler">
+                            <option value="Dodge">
+                            <option value="Subaru">
+                            <option value="Suzuki">
+                            <option value="Mazda">
+                            <option value="Lexus">
+                            <option value="Porsche">
+                            <option value="Infiniti">
+                            <option value="BYD">
+                            <option value="Tesla">
+                            <option value="Lucid">
+                            <option value="Polestar">
+                            <option value="Cupra">
+                            <option value="DS">
+                            <option value="Mini">
+                            <option value="Alfa Romeo">
+                            <option value="Aston Martin">
+                            <option value="Bentley">
+                            <option value="Ferrari">
+                            <option value="Lamborghini">
+                            <option value="McLaren">
+                            <option value="Rolls-Royce">
+                            <option value="Opel">
+                            <option value="Saab">
+                            <option value="Cadillac">
+                            <option value="Buick">
+                            <option value="GMC">
+                            <option value="Lincoln">
+                            <option value="MG">
+                            <option value="Maxus">
+                            <option value="JAC">
+                            <option value="Chery">
+                            <option value="Dongfeng">
+                            <option value="FAW">
+                            <option value="Great Wall">
+                        </datalist>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="carModel">Modelo *</label>
+                        <input type="text" id="carModel" list="modelList" placeholder="Selecione uma marca primeiro..." required>
+                        <datalist id="modelList">
+                            <!-- Modelos serão carregados via JavaScript -->
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                        <label for="carYear">Ano *</label>
+                        <input type="number" id="carYear" min="1900" max="2025" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="carPrice">Preço (R$) *</label>
+                        <input type="number" id="carPrice" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="carMileage">Quilometragem *</label>
+                        <input type="number" id="carMileage" min="0" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="carFuel">Combustível *</label>
+                        <select id="carFuel" required>
+                            <option value="">Selecione</option>
+                            <option>Gasolina</option>
+                            <option>Álcool</option>
+                            <option>Flex</option>
+                            <option>Diesel</option>
+                            <option>Elétrico</option>
+                            <option>Híbrido</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="carTransmission">Câmbio *</label>
+                        <select id="carTransmission" required>
+                            <option value="">Selecione</option>
+                            <option>Manual</option>
+                            <option>Automático</option>
+                            <option>CVT</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="carColor">Cor *</label>
+                    <input type="text" id="carColor" required>
+                </div>
+                <div class="form-group">
+                    <label for="carDescription">Descrição *</label>
+                    <textarea id="carDescription" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="carFeatures">Características (separadas por vírgula)</label>
+                    <input type="text" id="carFeatures" placeholder="Ar-condicionado, Vidro elétrico, Trava elétrica...">
+                </div>
+                <div class="form-group">
+                    <label>Imagens (JPG/PNG) *</label>
+                    <div id="carImagesContainer">
+                        <div class="image-upload-item">
+                            <input type="file" class="car-image-input" accept=".jpg,.jpeg,.png" required>
+                            <img class="image-preview hidden" alt="Preview">
+                            <button type="button" class="remove-image-btn hidden" title="Remover imagem">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="image-url-row">
+                        <input id="carImageUrlInput" type="url" placeholder="Cole uma URL de imagem (ex: https://...)" class="image-url-input" />
+                        <button type="button" id="addCarImageUrlBtn" class="add-image-btn">
+                            <i class="fas fa-link"></i> Adicionar URL
+                        </button>
+                    </div>
+
+                    <button type="button" id="addCarImageBtn" class="add-image-btn">
+                        <i class="fas fa-plus"></i> Adicionar Imagem
+                    </button>
+                </div>
+                <button type="submit" class="btn btn-primary">Salvar Carro</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- House Form Modal -->
+    <div class="modal hidden" id="houseModal">
+        <div class="modal-content">
+            <span class="close" onclick="hideModal('houseModal')">&times;</span>
+            <h2 id="houseFormTitle">Adicionar Nova Casa</h2>
+            <form id="houseForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="houseTitle">Título *</label>
+                        <input type="text" id="houseTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="houseType">Tipo *</label>
+                        <select id="houseType" required>
+                            <option value="">Selecione</option>
+                            <option>Casa</option>
+                            <option>Apartamento</option>
+                            <option>Terreno</option>
+                            <option>Sobrado</option>
+                            <option>Flat</option>
+                        </select>
+                    </div>
+                </div>
+                 <div class="form-row">
+                     <div class="form-group">
+                         <label for="houseZipCode">CEP</label>
+                         <input type="text" id="houseZipCode" placeholder="00000-000" maxlength="9">
+                         <small>Preencha o CEP para autopreencher o endereço</small>
+                     </div>
+                     <div class="form-group">
+                         <label for="housePrice">Preço (R$) *</label>
+                         <input type="number" id="housePrice" min="0" required>
+                     </div>
+                 </div>
+                 <div class="form-row">
+                     <div class="form-group">
+                         <label for="houseLocation">Localização *</label>
+                         <input type="text" id="houseLocation" required>
+                     </div>
+                     <div class="form-group">
+                         <label for="houseNeighborhood">Bairro</label>
+                         <input type="text" id="houseNeighborhood">
+                     </div>
+                 </div>
+                 <div class="form-row">
+                     <div class="form-group">
+                         <label for="houseCity">Cidade</label>
+                         <input type="text" id="houseCity">
+                     </div>
+                     <div class="form-group">
+                         <label for="houseState">Estado</label>
+                         <input type="text" id="houseState">
+                     </div>
+                 </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="houseBedrooms">Quartos *</label>
+                        <input type="number" id="houseBedrooms" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="houseBathrooms">Banheiros *</label>
+                        <input type="number" id="houseBathrooms" min="0" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="houseArea">Área (m²) *</label>
+                        <input type="number" id="houseArea" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="houseTotalArea">Área Total (m²)</label>
+                        <input type="number" id="houseTotalArea" min="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="houseDescription">Descrição *</label>
+                    <textarea id="houseDescription" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="houseFeatures">Características (separadas por vírgula)</label>
+                    <input type="text" id="houseFeatures" placeholder="Piscina, Garagem, Jardim, Área de lazer...">
+                </div>
+                <div class="form-group">
+                    <label>Imagens (JPG/PNG) *</label>
+                    <div id="houseImagesContainer">
+                        <div class="image-upload-item">
+                            <input type="file" class="house-image-input" accept=".jpg,.jpeg,.png" required>
+                            <img class="image-preview hidden" alt="Preview">
+                            <button type="button" class="remove-image-btn hidden" title="Remover imagem">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="image-url-row">
+                        <input id="houseImageUrlInput" type="url" placeholder="Cole uma URL de imagem (ex: https://...)" class="image-url-input" />
+                        <button type="button" id="addHouseImageUrlBtn" class="add-image-btn">
+                            <i class="fas fa-link"></i> Adicionar URL
+                        </button>
+                    </div>
+
+                    <button type="button" id="addHouseImageBtn" class="add-image-btn">
+                        <i class="fas fa-plus"></i> Adicionar Imagem
+                    </button>
+                </div>
+                <button type="submit" class="btn btn-primary">Salvar Casa</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>MoisAuto</h3>
+                    <p>Agenciador de Veículos e Imóveis</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Página Inicial</a></li>
+                        <li><a href="cars.html">Carros</a></li>
+                        <li><a href="houses.html">Casas</a></li>
+                        <li><a href="contact.html">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Siga-nos</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-threads"></i></a>
+                        <a href="https://wa.me/5551980578310" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 MoisAuto Agenciador. Todos os direitos reservados.</p>
+                <p class="developer">Desenvolvido por Leonardo Soares Alves</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <a href="https://wa.me/5551980578310" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</body>
+</html>

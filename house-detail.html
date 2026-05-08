@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Imóvel - MoisAuto Agenciador</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="assets/logo.png" alt="MoisAuto Agenciador" class="logo-image">
+                </a>
+            </div>
+            <nav class="nav" id="nav">
+                <ul class="nav-list">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="cars.html">Carros</a></li>
+                    <li><a href="houses.html">Casas</a></li>
+                    <li><a href="about.html">Sobre</a></li>
+                    <li><a href="contact.html">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="search-box mobile-search">
+                <button id="searchToggle" class="search-toggle"><i class="fas fa-search"></i></button>
+                <div class="search-expanded hidden" id="searchExpanded">
+                    <input type="text" id="searchInput" placeholder="Buscar...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            <div class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="product-header">
+        <div class="container">
+            <a href="houses.html" class="back-btn"><i class="fas fa-arrow-left"></i> Voltar</a>
+        </div>
+    </section>
+
+    <section class="product-detail" id="houseDetail">
+        <!-- House details will be loaded by JavaScript -->
+    </section>
+
+    <section class="related-products">
+        <div class="container">
+            <h2>Imóveis Relacionados</h2>
+            <div class="items-grid" id="relatedHouses">
+                <!-- Related houses will be loaded by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>MoisAuto Agenciador</h3>
+                    <p>Seu carro e sua casa dos sonhos estão aqui</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="cars.html">Carros</a></li>
+                        <li><a href="houses.html">Casas</a></li>
+                        <li><a href="about.html">Sobre</a></li>
+                        <li><a href="contact.html">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Siga-nos</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-threads"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 MoisAuto Agenciador. Todos os direitos reservados.</p>
+                <p class="developer">Desenvolvido por Leonardo Soares Alves</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <a href="https://wa.me/5551980578310" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</body>
+</html>

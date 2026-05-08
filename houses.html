@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casas - MoisAuto Agenciador</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="assets/logo.png" alt="MoisAuto Agenciador" class="logo-image">
+                </a>
+            </div>
+            <nav class="nav" id="nav">
+                <ul class="nav-list">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="cars.html">Carros</a></li>
+                    <li><a href="houses.html" class="active">Casas</a></li>
+                    <li><a href="about.html">Sobre</a></li>
+                    <li><a href="contact.html">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="search-box mobile-search">
+                <button id="searchToggle" class="search-toggle"><i class="fas fa-search"></i></button>
+                <div class="search-expanded hidden" id="searchExpanded">
+                    <input type="text" id="searchInput" placeholder="Buscar...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            <div class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Nossas Casas</h1>
+            <p>Imóveis selecionados para você e sua família</p>
+        </div>
+    </section>
+
+    <section class="items-section">
+        <div class="container">
+            <div class="items-layout">
+                <aside class="filter-sidebar">
+                    <div class="filter-group">
+                        <h3><i class="fas fa-search"></i> Buscar Imóveis</h3>
+                        <input type="text" class="filter-input" id="houseSearch" placeholder="Buscar por título, localização...">
+                    </div>
+
+                    <div class="filter-group">
+                        <h3><i class="fas fa-home"></i> Tipo de Imóvel</h3>
+                        <select class="filter-select" id="typeFilter">
+                            <option value="">Todos os Tipos</option>
+                            <option value="Casa">Casa</option>
+                            <option value="Apartamento">Apartamento</option>
+                            <option value="Terreno">Terreno</option>
+                            <option value="Sobrado">Sobrado</option>
+                            <option value="Flat">Flat</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <h3><i class="fas fa-map-marker-alt"></i> Localização</h3>
+                        <select class="filter-select" id="locationFilter">
+                            <option value="">Todas as Localizações</option>
+                            <option value="Porto Alegre">Porto Alegre</option>
+                            <option value="São Paulo">São Paulo</option>
+                            <option value="Florianópolis">Florianópolis</option>
+                            <option value="Curitiba">Curitiba</option>
+                            <option value="Gramado">Gramado</option>
+                            <option value="Balneário Camboriú">Balneário Camboriú</option>
+                        </select>
+                        <input type="text" class="filter-input" id="locationSearch" placeholder="Ou digite uma localização...">
+                    </div>
+
+                    <div class="filter-group">
+                        <h3><i class="fas fa-dollar-sign"></i> Faixa de Preço</h3>
+                        <select class="filter-select" id="priceFilter">
+                            <option value="">Todos os Preços</option>
+                            <option value="0-200000">Até R$ 200.000</option>
+                            <option value="200000-400000">R$ 200.000 - R$ 400.000</option>
+                            <option value="400000-700000">R$ 400.000 - R$ 700.000</option>
+                            <option value="700000-1000000">R$ 700.000 - R$ 1.000.000</option>
+                            <option value="1000000+">Acima de R$ 1.000.000</option>
+                        </select>
+                    </div>
+
+                    <button class="filter-btn clear" id="clearFilters" title="Limpar Filtros"></button>
+                </aside>
+
+                <main class="items-main">
+                    <div class="items-grid" id="housesGrid">
+                        <!-- Houses will be loaded by JavaScript -->
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>MoisAuto Agenciador</h3>
+                    <p>Seu carro e sua casa dos sonhos estão aqui</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="cars.html">Carros</a></li>
+                        <li><a href="houses.html">Casas</a></li>
+                        <li><a href="about.html">Sobre</a></li>
+                        <li><a href="contact.html">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Siga-nos</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-threads"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 MoisAuto Agenciador. Todos os direitos reservados.</p>
+                <p class="developer">Desenvolvido por Leonardo Soares Alves</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <a href="https://wa.me/5551980578310" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</body>
+</html>
