@@ -68,6 +68,38 @@
         </div>
     </div>
 
+    <!-- Template Selection Modal -->
+    <div class="modal hidden" id="templateModal">
+        <div class="modal-content" style="max-width: 800px;">
+            <span class="close" onclick="hideModal('templateModal')">&times;</span>
+            <h2>Escolha um Modelo de Card</h2>
+            <p>Selecione o estilo visual para o seu story:</p>
+            <div class="template-grid">
+                <div class="template-option" onclick="selectTemplate(1)">
+                    <img src="assets/template-1.png" alt="Modelo 1">
+                    <span>Estilo Moderno</span>
+                </div>
+                <div class="template-option" onclick="selectTemplate(2)">
+                    <img src="assets/template-2.png" alt="Modelo 2">
+                    <span>Estilo Dark</span>
+                </div>
+                <div class="template-option" onclick="selectTemplate(3)">
+                    <img src="assets/template-3.png" alt="Modelo 3">
+                    <span>Estilo Elegante</span>
+                </div>
+                <div class="template-option" onclick="selectTemplate(4)">
+                    <img src="assets/template-4.png" alt="Modelo 4">
+                    <span>Estilo Clean</span>
+                </div>
+            </div>
+            <div style="margin-top: 30px; text-align: center;">
+                <button id="generateImageBtn" class="btn btn-primary" style="width: 200px;" disabled>
+                    Gerar Imagem
+                </button>
+            </div>
+        </div>
+    </div>
+
     <section class="related-products">
         <div class="container">
             <h2>Imóveis Relacionados</h2>

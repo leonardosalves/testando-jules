@@ -439,7 +439,7 @@ function renderCarDetail() {
                         <div class="ad-share-actions" style="margin: 10px 0 16px;">
                             <div style="font-weight:800; margin-bottom:8px;">Anunciar este carro</div>
                             <div style="display:flex; flex-wrap:wrap; gap:10px;">
-                                <button class="btn-share" type="button" onclick="exportProductAsImage('car')">
+                                <button class="btn-share" type="button" onclick="openTemplateModal('car')">
                                     <i class="fas fa-mobile-alt"></i> GERAR CARD STORIES (NOVO)
                                 </button>
                                 <button class="btn btn-primary" type="button" onclick="downloadAdPng('car', ${car.id}, '1080x1350')">
@@ -535,7 +535,7 @@ function renderHouseDetail() {
                         <div class="ad-share-actions" style="margin: 10px 0 16px;">
                             <div style="font-weight:800; margin-bottom:8px;">Anunciar este imóvel</div>
                             <div style="display:flex; flex-wrap:wrap; gap:10px;">
-                                <button class="btn-share" type="button" onclick="exportProductAsImage('house')">
+                                <button class="btn-share" type="button" onclick="openTemplateModal('house')">
                                     <i class="fas fa-mobile-alt"></i> GERAR CARD STORIES (NOVO)
                                 </button>
                                 <button class="btn btn-primary" type="button" onclick="downloadAdPng('house', ${house.id}, '1080x1350')">
@@ -2382,19 +2382,68 @@ window.toggleSoldHouse = toggleSoldHouse;
 window.setCarEditing = setCarEditing;
 window.setHouseEditing = setHouseEditing;
 
-// Novas funções para exportação de card com html2canvas
+// Novas funções para exportação de card com html2canvas e seleção de templates
+let selectedTemplate = 0;
+let currentExportType = 'car';
+
+function openTemplateModal(type) {
+    currentExportType = type;
+    selectedTemplate = 0;
+
+    const modal = document.getElementById('templateModal');
+    if (modal) {
+        modal.classList.remove('hidden');
+
+        // Reset selection UI
+        document.querySelectorAll('.template-option').forEach(opt => opt.classList.remove('selected'));
+        const genBtn = document.getElementById('generateImageBtn');
+        if (genBtn) {
+            genBtn.disabled = true;
+            // Garantir que o evento esteja anexado
+            genBtn.onclick = () => exportProductAsImage(currentExportType);
+        }
+    }
+}
+
+function selectTemplate(index) {
+    selectedTemplate = index;
+
+    // UI feedback
+    const options = document.querySelectorAll('.template-option');
+    options.forEach((opt, idx) => {
+        if (idx + 1 === index) opt.classList.add('selected');
+        else opt.classList.remove('selected');
+    });
+
+    const genBtn = document.getElementById('generateImageBtn');
+    if (genBtn) genBtn.disabled = false;
+}
+
 async function exportProductAsImage(type) {
+    if (selectedTemplate === 0) return;
+
     const urlParams = new URLSearchParams(window.location.search);
     const id = parseInt(urlParams.get('id'));
     const item = type === 'car' ? cars.find(c => c.id === id) : houses.find(h => h.id === id);
 
     if (!item) return;
 
+    // Feedback visual de carregamento
+    const genBtn = document.getElementById('generateImageBtn');
+    const originalText = genBtn.innerText;
+    genBtn.innerText = 'Processando...';
+    genBtn.disabled = true;
+
     const shareCard = document.getElementById('shareCard');
     const shareCardImage = document.getElementById('shareCardImage');
     const shareCardTitle = document.getElementById('shareCardTitle');
     const shareCardPrice = document.getElementById('shareCardPrice');
     const shareCardSpecs = document.getElementById('shareCardSpecs');
+
+    // Aplicar Template selecionado como background
+    shareCard.style.backgroundImage = `url('assets/template-${selectedTemplate}.png')`;
+    shareCard.style.backgroundSize = 'cover';
+    shareCard.style.backgroundPosition = 'center';
 
     // Preencher dados básicos
     shareCardTitle.innerText = item.title;
@@ -2447,23 +2496,39 @@ async function exportProductAsImage(type) {
     }
     shareCardSpecs.innerHTML = specsHtml;
 
-    // Aguardar o carregamento da imagem para o canvas capturar corretamente
-    await new Promise(resolve => {
-        if (shareCardImage.complete) resolve();
-        else shareCardImage.onload = resolve;
-    });
+    try {
+        // Aguardar o carregamento da imagem para o canvas capturar corretamente
+        await new Promise((resolve, reject) => {
+            if (shareCardImage.complete) resolve();
+            else {
+                shareCardImage.onload = resolve;
+                shareCardImage.onerror = reject;
+            }
+        });
 
-    // Usar html2canvas para gerar a imagem
-    html2canvas(shareCard, {
-        useCORS: true,
-        scale: 2, // Melhor qualidade
-        backgroundColor: null
-    }).then(canvas => {
+        // Usar html2canvas para gerar a imagem
+        const canvas = await html2canvas(shareCard, {
+            useCORS: true,
+            scale: 2, // Melhor qualidade
+            backgroundColor: null
+        });
+
         const link = document.createElement('a');
-        link.download = `moisauto-${type}-${id}-stories.png`;
+        link.download = `moisauto-${type}-${id}-template${selectedTemplate}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
-    });
+
+        // Fechar modal após sucesso
+        hideModal('templateModal');
+    } catch (err) {
+        console.error('Erro ao gerar imagem:', err);
+        alert('Ocorreu um erro ao gerar a imagem. Verifique sua conexão e tente novamente.');
+    } finally {
+        genBtn.innerText = originalText;
+        genBtn.disabled = false;
+    }
 }
 
+window.openTemplateModal = openTemplateModal;
+window.selectTemplate = selectTemplate;
 window.exportProductAsImage = exportProductAsImage;
