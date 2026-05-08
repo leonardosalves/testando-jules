@@ -287,8 +287,119 @@ const demoHouses = [
 ];
 
 // Armazenamento local
-let cars = JSON.parse(localStorage.getItem('cars')) || demoCars;
-let houses = JSON.parse(localStorage.getItem('houses')) || demoHouses;
+let cars, houses;
+
+try {
+    cars = JSON.parse(localStorage.getItem('cars')) || demoCars;
+    houses = JSON.parse(localStorage.getItem('houses')) || demoHouses;
+
+    // Validar dados carregados
+    if (!Array.isArray(cars) || !Array.isArray(houses)) {
+        throw new Error('Dados inválidos no localStorage');
+    }
+
+    // Verificar se cada item tem propriedades necessárias
+    cars.forEach((car, index) => {
+        if (!car.id || !car.title || !car.image) {
+            throw new Error(`Carro ${index} tem dados inválidos`);
+        }
+    });
+
+    houses.forEach((house, index) => {
+        if (!house.id || !house.title || !house.image) {
+            throw new Error(`Casa ${index} tem dados inválidos`);
+        }
+    });
+
+} catch (error) {
+    console.warn('Erro ao carregar dados do localStorage, usando dados demo:', error);
+    cars = [...demoCars];
+    houses = [...demoHouses];
+    localStorage.setItem('cars', JSON.stringify(cars));
+    localStorage.setItem('houses', JSON.stringify(houses));
+}
+
+// URLs do Worker (ALTERE ESTAS URLs APÓS O DEPLOY)
+const WORKER_UPLOAD_URL = 'https://SEU-WORKER.workers.dev/upload';
+const WORKER_AUTH_SECRET = 'CHANGE_THIS_SECRET_TO_A_STRONG_RANDOM_STRING'; // Mesmo valor do wrangler.toml
+
+// Função para upload de imagem para o Worker
+async function uploadImageToWorker(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+        const response = await fetch(WORKER_UPLOAD_URL, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${WORKER_AUTH_SECRET}`
+            },
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error(`Upload failed: ${response.statusText}`);
+        }
+
+        const result = await response.json();
+        return result.url;
+    } catch (error) {
+        console.error('Error uploading image:', error);
+        throw error;
+    }
+}
+
+// Função para processar múltiplas imagens (upload para Worker)
+async function processImagesForUpload(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return [];
+
+    const imageItems = container.querySelectorAll('.image-upload-item');
+    const uploadedUrls = [];
+
+    for (const item of imageItems) {
+        const input = item.querySelector('input[type="file"]');
+        const preview = item.querySelector('img.image-preview');
+
+        if (input && input.files && input.files[0]) {
+            // Upload do arquivo
+            try {
+                const url = await uploadImageToWorker(input.files[0]);
+                uploadedUrls.push(url);
+            } catch (error) {
+                console.error('Failed to upload image:', error);
+                // Fallback para URL externa se disponível
+                if (preview && preview.src && preview.src.startsWith('http') && !preview.src.includes('data:')) {
+                    uploadedUrls.push(preview.src);
+                }
+            }
+        } else if (preview && preview.src && preview.src.startsWith('http') && !preview.src.includes('data:')) {
+            // URL externa já definida
+            uploadedUrls.push(preview.src);
+        }
+    }
+
+    return uploadedUrls;
+}
+
+// Função para resetar dados (debug)
+function resetData() {
+    localStorage.removeItem('cars');
+    localStorage.removeItem('houses');
+    cars = [...demoCars];
+    houses = [...demoHouses];
+    localStorage.setItem('cars', JSON.stringify(cars));
+    localStorage.setItem('houses', JSON.stringify(houses));
+    updateDashboardStats();
+    if (typeof renderCarsGrid === 'function') renderCarsGrid();
+    if (typeof renderHousesGrid === 'function') renderHousesGrid();
+    if (typeof renderAdminCars === 'function') renderAdminCars();
+    if (typeof renderAdminHouses === 'function') renderAdminHouses();
+    alert('Dados resetados para demo!');
+}
+
+// Tornar função global para debug
+window.resetData = resetData;
 
 // Reusable formatter instance for better performance
 const priceFormatter = new Intl.NumberFormat('pt-BR', {
@@ -1288,52 +1399,68 @@ document.addEventListener('DOMContentLoaded', () => {
     // Admin forms com upload de imagem
     const carForm = document.getElementById('carForm');
     if (carForm) {
-        carForm.addEventListener('submit', e => {
+        carForm.addEventListener('submit', async e => {
             e.preventDefault();
 
-            // Criar objeto com dados do formulário
-            const formData = {
-                title: document.getElementById('carTitle').value,
-                brand: document.getElementById('carBrand').value,
-                model: document.getElementById('carModel').value,
-                year: document.getElementById('carYear').value,
-                price: document.getElementById('carPrice').value,
-                mileage: document.getElementById('carMileage').value,
-                fuel: document.getElementById('carFuel').value,
-                transmission: document.getElementById('carTransmission').value,
-                color: document.getElementById('carColor').value,
-                description: document.getElementById('carDescription').value,
-                features: document.getElementById('carFeatures').value
-            };
+            // Mostrar loading
+            const submitBtn = carForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Salvando...';
+            submitBtn.disabled = true;
 
-            const editId = carForm.dataset.editId ? Number(carForm.dataset.editId) : null;
+            try {
+                // Criar objeto com dados do formulário
+                const formData = {
+                    title: document.getElementById('carTitle').value,
+                    brand: document.getElementById('carBrand').value,
+                    model: document.getElementById('carModel').value,
+                    year: document.getElementById('carYear').value,
+                    price: document.getElementById('carPrice').value,
+                    mileage: document.getElementById('carMileage').value,
+                    fuel: document.getElementById('carFuel').value,
+                    transmission: document.getElementById('carTransmission').value,
+                    color: document.getElementById('carColor').value,
+                    description: document.getElementById('carDescription').value,
+                    features: document.getElementById('carFeatures').value
+                };
 
-            // Salvar carro (criar ou editar)
-            const newCar = saveCar(formData, editId);
-            console.log('Carro salvo:', newCar);
+                const editId = carForm.dataset.editId ? Number(carForm.dataset.editId) : null;
 
-            hideModal('carModal');
-            carForm.reset();
+                // Salvar carro (criar ou editar)
+                const newCar = await saveCar(formData, editId);
+                console.log('Carro salvo:', newCar);
 
-            // Limpar múltiplas imagens
-            const container = document.getElementById('carImagesContainer');
-            if (container) {
-                container.innerHTML = `
-                    <div class="image-upload-item">
-                        <input type="file" class="car-image-input" accept=".jpg,.jpeg,.png" required>
-                        <img class="image-preview hidden" alt="Preview">
-                        <button type="button" class="remove-image-btn hidden" title="Remover imagem">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                `;
-                initializeMultipleImages('car', 'carImagesContainer', 'addCarImageBtn');
-            }
+                hideModal('carModal');
+                carForm.reset();
 
-            // Limpar modelos quando o formulário for resetado
-            const modelDatalist = document.getElementById('modelList');
-            if (modelDatalist) {
-                modelDatalist.innerHTML = '';
+                // Limpar múltiplas imagens
+                const container = document.getElementById('carImagesContainer');
+                if (container) {
+                    container.innerHTML = `
+                        <div class="image-upload-item">
+                            <input type="file" class="car-image-input" accept=".jpg,.jpeg,.png" required>
+                            <img class="image-preview hidden" alt="Preview">
+                            <button type="button" class="remove-image-btn hidden" title="Remover imagem">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `;
+                    initializeMultipleImages('car', 'carImagesContainer', 'addCarImageBtn');
+                }
+
+                // Limpar modelos quando o formulário for resetado
+                const modelDatalist = document.getElementById('modelList');
+                if (modelDatalist) {
+                    modelDatalist.innerHTML = '';
+                }
+
+            } catch (error) {
+                console.error('Error saving car:', error);
+                alert('Erro ao salvar carro. Tente novamente.');
+            } finally {
+                // Restaurar botão
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
             }
         });
     }
@@ -1361,49 +1488,65 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const houseForm = document.getElementById('houseForm');
     if (houseForm) {
-        houseForm.addEventListener('submit', e => {
+        houseForm.addEventListener('submit', async e => {
             e.preventDefault();
 
-            // Criar objeto com dados do formulário
-            const formData = {
-                title: document.getElementById('houseTitle').value,
-                type: document.getElementById('houseType').value,
-                location: document.getElementById('houseLocation').value,
-                neighborhood: document.getElementById('houseNeighborhood')?.value || '',
-                city: document.getElementById('houseCity')?.value || '',
-                state: document.getElementById('houseState')?.value || '',
-                zipCode: document.getElementById('houseZipCode')?.value || '',
-                price: document.getElementById('housePrice').value,
-                bedrooms: document.getElementById('houseBedrooms').value,
-                bathrooms: document.getElementById('houseBathrooms').value,
-                area: document.getElementById('houseArea').value,
-                totalArea: document.getElementById('houseTotalArea').value || '',
-                description: document.getElementById('houseDescription').value,
-                features: document.getElementById('houseFeatures').value
-            };
+            // Mostrar loading
+            const submitBtn = houseForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Salvando...';
+            submitBtn.disabled = true;
 
-            const editId = houseForm.dataset.editId ? Number(houseForm.dataset.editId) : null;
+            try {
+                // Criar objeto com dados do formulário
+                const formData = {
+                    title: document.getElementById('houseTitle').value,
+                    type: document.getElementById('houseType').value,
+                    location: document.getElementById('houseLocation').value,
+                    neighborhood: document.getElementById('houseNeighborhood')?.value || '',
+                    city: document.getElementById('houseCity')?.value || '',
+                    state: document.getElementById('houseState')?.value || '',
+                    zipCode: document.getElementById('houseZipCode')?.value || '',
+                    price: document.getElementById('housePrice').value,
+                    bedrooms: document.getElementById('houseBedrooms').value,
+                    bathrooms: document.getElementById('houseBathrooms').value,
+                    area: document.getElementById('houseArea').value,
+                    totalArea: document.getElementById('houseTotalArea').value || '',
+                    description: document.getElementById('houseDescription').value,
+                    features: document.getElementById('houseFeatures').value
+                };
 
-            // Salvar casa (criar ou editar)
-            const newHouse = saveHouse(formData, editId);
-            console.log('Casa salva:', newHouse);
+                const editId = houseForm.dataset.editId ? Number(houseForm.dataset.editId) : null;
 
-            hideModal('houseModal');
-            houseForm.reset();
+                // Salvar casa (criar ou editar)
+                const newHouse = await saveHouse(formData, editId);
+                console.log('Casa salva:', newHouse);
 
-            // Limpar múltiplas imagens
-            const container = document.getElementById('houseImagesContainer');
-            if (container) {
-                container.innerHTML = `
-                    <div class="image-upload-item">
-                        <input type="file" class="house-image-input" accept=".jpg,.jpeg,.png" required>
-                        <img class="image-preview hidden" alt="Preview">
-                        <button type="button" class="remove-image-btn hidden" title="Remover imagem">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                `;
-                initializeMultipleImages('house', 'houseImagesContainer', 'addHouseImageBtn');
+                hideModal('houseModal');
+                houseForm.reset();
+
+                // Limpar múltiplas imagens
+                const container = document.getElementById('houseImagesContainer');
+                if (container) {
+                    container.innerHTML = `
+                        <div class="image-upload-item">
+                            <input type="file" class="house-image-input" accept=".jpg,.jpeg,.png" required>
+                            <img class="image-preview hidden" alt="Preview">
+                            <button type="button" class="remove-image-btn hidden" title="Remover imagem">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `;
+                    initializeMultipleImages('house', 'houseImagesContainer', 'addHouseImageBtn');
+                }
+
+            } catch (error) {
+                console.error('Error saving house:', error);
+                alert('Erro ao salvar casa. Tente novamente.');
+            } finally {
+                // Restaurar botão
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
             }
         });
     }
@@ -1877,32 +2020,20 @@ function exportData() {
 }
 
 // Função para salvar casa
-function saveHouse(formData, editId = null) {
-    // Lê imagens pelas previews renderizadas (upload local gera DataURL; URL já é src)
-    const houseImagesContainer = document.getElementById('houseImagesContainer');
-    const images = [];
-
-    if (houseImagesContainer) {
-        const previews = houseImagesContainer.querySelectorAll('img.image-preview');
-        previews.forEach(preview => {
-            if (!preview || !preview.src) return;
-            // aceita também preview hidden se tiver src
-            if (!preview.classList.contains('hidden')) {
-                images.push(preview.src);
-            }
-        });
+async function saveHouse(formData, editId = null) {
+    // Processar upload das imagens
+    let finalImages = [];
+    try {
+        finalImages = await processImagesForUpload('houseImagesContainer');
+    } catch (error) {
+        console.error('Error processing house images:', error);
+        // Fallback para placeholder
+        finalImages = ['https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80'];
     }
 
-    // fallback caso tudo esteja hidden mas existam src
-    if (images.length === 0 && houseImagesContainer) {
-        const previews = houseImagesContainer.querySelectorAll('img.image-preview');
-        previews.forEach(preview => {
-            if (preview && preview.src) images.push(preview.src);
-        });
+    if (finalImages.length === 0) {
+        finalImages = ['https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80'];
     }
-
-    const placeholder = 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80';
-    const finalImages = images.length > 0 ? images : [placeholder];
 
     const newHouse = {
         id: editId != null ? editId : Date.now(),
@@ -1940,30 +2071,20 @@ function saveHouse(formData, editId = null) {
 }
 
 // Função para salvar carro
-function saveCar(formData, editId = null) {
-    // Lê imagens pelas previews renderizadas (upload local gera DataURL; URL já é src)
-    const carImagesContainer = document.getElementById('carImagesContainer');
-    const images = [];
-
-    if (carImagesContainer) {
-        const previews = carImagesContainer.querySelectorAll('img.image-preview');
-        previews.forEach(preview => {
-            if (!preview || !preview.src) return;
-            // Independentemente de hidden, se existe src é uma imagem válida (upload local vira DataURL, URL vira src)
-            images.push(preview.src);
-        });
+async function saveCar(formData, editId = null) {
+    // Processar upload das imagens
+    let finalImages = [];
+    try {
+        finalImages = await processImagesForUpload('carImagesContainer');
+    } catch (error) {
+        console.error('Error processing car images:', error);
+        // Fallback para placeholder
+        finalImages = ['https://images.unsplash.com/photo-1583390786285-478a0b29e3fc?auto=format&fit=crop&w=800&q=80'];
     }
 
-    // fallback caso tudo esteja hidden mas existam src
-    if (images.length === 0 && carImagesContainer) {
-        const previews = carImagesContainer.querySelectorAll('img.image-preview');
-        previews.forEach(preview => {
-            if (preview && preview.src) images.push(preview.src);
-        });
+    if (finalImages.length === 0) {
+        finalImages = ['https://images.unsplash.com/photo-1583390786285-478a0b29e3fc?auto=format&fit=crop&w=800&q=80'];
     }
-
-    const placeholder = 'https://images.unsplash.com/photo-1583390786285-478a0b29e3fc?auto=format&fit=crop&w=800&q=80';
-    const finalImages = images.length > 0 ? images : [placeholder];
 
     const newCar = {
         id: editId != null ? editId : Date.now(),

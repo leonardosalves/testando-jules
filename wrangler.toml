@@ -1,0 +1,10 @@
+name = "moisauto-upload-api"
+main = "src/index.ts"
+compatibility_date = "2023-01-01"
+
+[[r2_buckets]]
+binding = "IMAGES_BUCKET"
+bucket_name = "moisauto-images"
+
+[vars]
+AUTH_SECRET = "CHANGE_THIS_SECRET_TO_A_STRONG_RANDOM_STRING"

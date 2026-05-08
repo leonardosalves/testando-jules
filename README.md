@@ -55,8 +55,38 @@ MoisAuto-Website/
 ### Modificar estilos
 Edite `style.css` - as cores principais estão nas variáveis CSS no início do arquivo.
 
+## Upload de Imagens
+
+O site suporta upload de imagens através de Cloudflare Workers e R2 storage.
+
+### Configuração:
+
+1. **Criar bucket R2:**
+   ```bash
+   npx wrangler r2 bucket create moisauto-images
+   ```
+
+2. **Deploy do Worker:**
+   ```bash
+   cd src
+   npm install
+   npx wrangler deploy
+   ```
+
+3. **Configurar URLs:**
+   - Atualize `WORKER_UPLOAD_URL` e `WORKER_AUTH_SECRET` no `script.js`
+   - Use a URL do Worker deployado
+
+### Funcionalidades de Upload:
+- Upload direto de arquivos (JPG/PNG)
+- Suporte a URLs externas
+- Múltiplas imagens por anúncio
+- Validação de tipo e tamanho de arquivo
+
 ## Tecnologias
 - HTML5
 - CSS3 (Flexbox, Grid, Variáveis)
 - JavaScript (Vanilla)
 - Font Awesome (ícones)
+- Cloudflare Workers
+- Cloudflare R2
