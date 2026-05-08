@@ -45,34 +45,87 @@
             max-height: 90vh;
             overflow-y: auto;
         }
-        .layout-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
+        .layout-container {
+            max-width: 100%;
+            overflow-x: auto;
+            padding: 20px 0;
             margin: 20px 0;
+            scrollbar-width: thin;
+            scrollbar-color: #E30613 #f1f1f1;
+        }
+        .layout-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        .layout-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        .layout-container::-webkit-scrollbar-thumb {
+            background: #E30613;
+            border-radius: 4px;
+        }
+        .layout-container::-webkit-scrollbar-thumb:hover {
+            background: #ff4757;
+        }
+        .layout-row {
+            display: flex;
+            gap: 25px;
+            min-width: max-content;
+            padding: 0 20px;
         }
         .layout-option {
-            border: 4px solid #ddd;
-            border-radius: 12px;
+            min-width: 280px;
+            max-width: 320px;
+            border: 3px solid #e9ecef;
+            border-radius: 16px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s ease;
             overflow: hidden;
+            position: relative;
+            background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
         .layout-option:hover {
             border-color: #E30613;
-            transform: scale(1.02);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(227,6,19,0.2);
         }
-        .layout-option img {
+        .layout-option.selected {
+            border-color: #E30613;
+            box-shadow: 0 8px 25px rgba(227,6,19,0.3);
+        }
+        .layout-preview {
             width: 100%;
-            height: 240px;
-            object-fit: cover;
-        }
-        .layout-option span {
-            display: block;
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
+            height: 420px;
+            position: relative;
+            overflow: hidden;
             background: #f8f9fa;
+        }
+        .layout-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+        .layout-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #E30613;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .card-preview {
             width: 320px;
@@ -183,7 +236,9 @@
         <div class="card-generator-content">
             <h2>📱 Gerar Card para Compartilhar</h2>
             <p>Escolha o layout do card para redes sociais:</p>
-            <div class="layout-grid" id="layoutGrid"></div>
+            <div class="layout-container">
+                <div class="layout-row" id="layoutGrid"></div>
+            </div>
             <br>
             <button onclick="fecharCardModal()" style="padding:12px 30px; font-size:16px;">Fechar</button>
         </div>
@@ -296,28 +351,110 @@
                 site: "www.moisauto.com.br"
             };
 
-            const grid = document.getElementById('layoutGrid');
-            grid.innerHTML = '';
+            const container = document.getElementById('layoutGrid');
+            container.innerHTML = `
+                <div class="layout-row" id="layoutRow"></div>
+            `;
+
+            const row = document.getElementById('layoutRow');
 
             const layouts = [
-                { name: 'Estilo Moderno', color: '#E30613' },
-                { name: 'Estilo Dark', color: '#1a1a1a' },
-                { name: 'Estilo Laranja', color: '#FF5500' },
-                { name: 'Estilo Verde', color: '#00C853' }
+                { name: 'Executivo Premium', preview: '✨ Moderno & Sofisticado' },
+                { name: 'Luxo Noturno', preview: '🌙 Dark & Elegante' },
+                { name: 'Energia Dinâmica', preview: '⚡ Vibrante & Moderno' },
+                { name: 'Natureza Urbana', preview: '🌿 Clean & Profissional' }
             ];
 
             layouts.forEach((layout, index) => {
                 const div = document.createElement('div');
                 div.className = 'layout-option';
                 div.innerHTML = `
-                    <div style="width:100%; height:240px; background: linear-gradient(135deg, ${layout.color}, ${layout.color}dd); display:flex; align-items:center; justify-content:center; color:white; font-size:18px; font-weight:bold;">
-                        ${layout.name}
+                    <div class="layout-preview">
+                        ${getLayoutPreviewHouse(index + 1)}
+                        <div class="layout-badge">Layout ${index + 1}</div>
                     </div>
-                    <span>Layout ${index + 1}</span>
+                    <div class="layout-title">${layout.name}</div>
                 `;
-                div.onclick = () => gerarCardDinamicoHouse(index + 1);
-                grid.appendChild(div);
+                div.onclick = () => {
+                    // Remove seleção anterior
+                    document.querySelectorAll('.layout-option').forEach(opt => opt.classList.remove('selected'));
+                    // Adiciona seleção atual
+                    div.classList.add('selected');
+                    // Gera o card
+                    gerarCardDinamicoHouse(index + 1);
+                };
+                row.appendChild(div);
             });
+
+            function getLayoutPreviewHouse(layoutNum) {
+                const previewData = {
+                    titulo: currentHouseData.titulo.length > 15 ? currentHouseData.titulo.substring(0, 15) + '...' : currentHouseData.titulo,
+                    subtitulo: currentHouseData.subtitulo.length > 20 ? currentHouseData.subtitulo.substring(0, 20) + '...' : currentHouseData.subtitulo,
+                    preco: currentHouseData.preco,
+                    localizacao: currentHouseData.localizacao.length > 15 ? currentHouseData.localizacao.substring(0, 15) + '...' : currentHouseData.localizacao
+                };
+
+                switch(layoutNum) {
+                    case 1: // Executivo Premium
+                        return `
+                            <div style="width:100%; height:100%; background:linear-gradient(145deg,#fff,#f8f9fa); position:relative; font-size:10px;">
+                                <div style="padding:8px; text-align:center; background:rgba(255,255,255,0.95);">
+                                    <div style="display:inline-block; padding:4px 8px; background:linear-gradient(135deg,#E30613,#ff4757); border-radius:8px; color:white; font-size:8px;">LOGO</div>
+                                </div>
+                                <div style="height:200px; background:#e9ecef; display:flex; align-items:center; justify-content:center; color:#666;">FOTO</div>
+                                <div style="padding:12px 8px; text-align:center;">
+                                    <div style="font-size:14px; font-weight:900; margin:4px 0; color:#1a1a1a;">${previewData.titulo}</div>
+                                    <div style="font-size:10px; color:#666;">${previewData.subtitulo}</div>
+                                    <div style="background:#E30613; color:white; font-size:16px; font-weight:900; padding:6px; margin:8px 0; border-radius:4px;">R$ ${previewData.preco}</div>
+                                </div>
+                            </div>
+                        `;
+                    case 2: // Luxo Noturno
+                        return `
+                            <div style="width:100%; height:100%; background:#0a0a0a; color:white; position:relative; font-size:10px;">
+                                <div style="background:linear-gradient(90deg,#1a1a1a,#E30613); padding:6px 8px;">
+                                    <div style="font-size:8px; font-weight:300;">EXCLUSIVO</div>
+                                    <div style="font-size:12px; font-weight:900;">IMÓVEL LUXO</div>
+                                </div>
+                                <div style="height:180px; background:#333; display:flex; align-items:center; justify-content:center; color:#666;">FOTO</div>
+                                <div style="padding:12px 8px;">
+                                    <div style="font-size:14px; font-weight:900; margin:4px 0; color:white;">${previewData.titulo}</div>
+                                    <div style="font-size:10px; color:#999; margin:4px 0;">${previewData.localizacao}</div>
+                                    <div style="background:#E30613; color:white; font-size:16px; font-weight:900; padding:6px; margin:8px 0; border-radius:4px;">R$ ${previewData.preco}</div>
+                                </div>
+                            </div>
+                        `;
+                    case 3: // Energia Dinâmica
+                        return `
+                            <div style="width:100%; height:100%; background:linear-gradient(135deg,#FF5500,#ff6b35); position:relative; color:white; font-size:10px;">
+                                <div style="padding:8px; text-align:center;">
+                                    <div style="display:inline-block; padding:4px 8px; background:rgba(255,255,255,0.2); border-radius:6px; color:white; font-size:8px;">OFERTA</div>
+                                </div>
+                                <div style="height:200px; background:#666; display:flex; align-items:center; justify-content:center; color:#999;">FOTO</div>
+                                <div style="padding:12px 8px; text-align:center;">
+                                    <div style="font-size:14px; font-weight:900; margin:4px 0;">${previewData.titulo}</div>
+                                    <div style="font-size:10px; margin:4px 0;">${previewData.subtitulo}</div>
+                                    <div style="font-size:20px; font-weight:900; margin:8px 0; color:#FFEE00;">R$ ${previewData.preco}</div>
+                                    <div style="font-size:10px; color:#FFEE00;">FINANCIAMENTO!</div>
+                                </div>
+                            </div>
+                        `;
+                    case 4: // Natureza Urbana
+                        return `
+                            <div style="width:100%; height:100%; background:linear-gradient(135deg,#fff,#f8f9fa); position:relative; font-size:10px;">
+                                <div style="background:linear-gradient(135deg,#00C853,#4CAF50); padding:8px; text-align:center; color:white;">
+                                    <div style="font-size:8px;">VENDA DIRETA</div>
+                                </div>
+                                <div style="height:200px; background:#e9ecef; border-top:2px solid #00C853; border-bottom:2px solid #00C853; display:flex; align-items:center; justify-content:center; color:#666;">FOTO</div>
+                                <div style="padding:12px 8px; text-align:center;">
+                                    <div style="font-size:14px; font-weight:900; margin:4px 0; color:#1a1a1a;">${previewData.titulo}</div>
+                                    <div style="font-size:10px; color:#666; margin:4px 0;">${previewData.localizacao}</div>
+                                    <div style="background:#00C853; color:white; font-size:16px; font-weight:900; padding:6px; margin:8px 0; border-radius:4px;">R$ ${previewData.preco}</div>
+                                </div>
+                            </div>
+                        `;
+                }
+            }
 
             document.getElementById('cardGeneratorModal').style.display = 'flex';
         }

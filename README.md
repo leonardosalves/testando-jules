@@ -59,6 +59,9 @@ Nas páginas de detalhes de carros e casas, há um botão **"GERAR CARD STORIES 
 - **Elementos Visuais:** Gradientes, sombras, blur effects e animações sutis
 - **Responsividade:** Layouts balanceados que funcionam em qualquer dispositivo
 - **Qualidade:** Renderização em alta resolução (2x scale)
+- **👁️ Modal Interativo:** Previews visuais horizontais com scroll personalizado
+- **🎯 Seleção Visual:** Destaque do layout selecionado com borda vermelha
+- **📱 UX Aprimorada:** Interface intuitiva com hover effects e feedback visual
 
 #### 📱 Conteúdo Incluído:
 
