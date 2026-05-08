@@ -1,0 +1,200 @@
+[
+  {
+    "id": 1,
+    "titulo": "Casa em Condomínio - Porto Alegre",
+    "type": "Casa",
+    "location": "Porto Alegre",
+    "neighborhood": "Centro",
+    "city": "Porto Alegre",
+    "state": "RS",
+    "zipCode": "90010-000",
+    "price": 850000,
+    "bedrooms": 4,
+    "bathrooms": 3,
+    "area": 180,
+    "totalArea": 320,
+    "description": "Linda casa em condomínio fechado com amplo espaço e área de lazer completa. Perfeita para famílias que buscam conforto e segurança.",
+    "features": [
+      "Piscina",
+      "Garagem para 3 carros",
+      "Jardim",
+      "Área gourmet",
+      "Segurança 24h",
+      "Academia",
+      "Salão de festas",
+      "Quadra poliesportiva"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80"
+    ],
+    "createdAt": "2026-05-08T18:00:42-03:00",
+    "updatedAt": "2026-05-08T18:00:42-03:00",
+    "sold": false,
+    "soldAt": null
+  },
+  {
+    "id": 2,
+    "titulo": "Apartamento Centro - São Paulo",
+    "type": "Apartamento",
+    "location": "Centro",
+    "neighborhood": "Centro",
+    "city": "São Paulo",
+    "state": "SP",
+    "zipCode": "01000-000",
+    "price": 1250000,
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "area": 120,
+    "totalArea": 120,
+    "description": "Apartamento novo no centro de São Paulo, próximo a tudo que você precisa. Localização privilegiada com vista panorâmica.",
+    "features": [
+      "Vista panorâmica",
+      "Elevador",
+      "Segurança 24h",
+      "Academia",
+      "Salão de festas",
+      "Lavanderia coletiva",
+      "Portaria 24h",
+      "Próximo ao metrô"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1522706600309-4df2b2b1c0e8?auto=format&fit=crop&w=800&q=80"
+    ],
+    "createdAt": "2026-05-08T18:00:42-03:00",
+    "updatedAt": "2026-05-08T18:00:42-03:00",
+    "sold": false,
+    "soldAt": null
+  },
+  {
+    "id": 3,
+    "titulo": "Sobrado Laje - Florianópolis",
+    "type": "Sobrado",
+    "location": "Florianópolis",
+    "neighborhood": "Centro",
+    "city": "Florianópolis",
+    "state": "SC",
+    "zipCode": "88010-000",
+    "price": 1100000,
+    "bedrooms": 4,
+    "bathrooms": 4,
+    "area": 200,
+    "totalArea": 250,
+    "description": "Sobrado em laje com vista para o mar, localização privilegiada em Florianópolis. Design moderno e acabamento de primeira.",
+    "features": [
+      "Laje com churrasqueira",
+      "Vista mar",
+      "Garagem coberta",
+      "Piscina privativa",
+      "Jardim",
+      "Área gourmet",
+      "Home office",
+      "Closet planejado"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1600596542815-e281c4b2e5c8?auto=format&fit=crop&w=800&q=80"
+    ],
+    "createdAt": "2026-05-08T18:00:42-03:00",
+    "updatedAt": "2026-05-08T18:00:42-03:00",
+    "sold": false,
+    "soldAt": null
+  },
+  {
+    "id": 4,
+    "titulo": "Terreno Urbano - Curitiba",
+    "type": "Terreno",
+    "location": "Curitiba",
+    "neighborhood": "Centro",
+    "city": "Curitiba",
+    "state": "PR",
+    "zipCode": "80010-000",
+    "price": 350000,
+    "bedrooms": 0,
+    "bathrooms": 0,
+    "area": 500,
+    "totalArea": 500,
+    "description": "Terreno plano em área residencial nobre de Curitiba, ideal para construir a casa dos seus sonhos. Documentação completa e regularizada.",
+    "features": [
+      "Plano",
+      "Asfalto",
+      "Linha de ônibus",
+      "Supermercado próximo",
+      "Escola próxima",
+      "Energia elétrica",
+      "Água encanada",
+      "Gás canalizado"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1500382017468-9030d732e4da?auto=format&fit=crop&w=800&q=80"
+    ],
+    "createdAt": "2026-05-08T18:00:42-03:00",
+    "updatedAt": "2026-05-08T18:00:42-03:00",
+    "sold": false,
+    "soldAt": null
+  },
+  {
+    "id": 5,
+    "titulo": "Casa de Campo - Gramado",
+    "type": "Casa",
+    "location": "Gramado",
+    "neighborhood": "Centro",
+    "city": "Gramado",
+    "state": "RS",
+    "zipCode": "95670-000",
+    "price": 980000,
+    "bedrooms": 5,
+    "bathrooms": 4,
+    "area": 250,
+    "totalArea": 1000,
+    "description": "Casa de campo com lago e bosque, perfeita para lazer em família. Ambiente tranquilo e aconchegante em Gramado.",
+    "features": [
+      "Lago privativo",
+      "Bosque",
+      "Churrasqueira grande",
+      "Perto do centro",
+      "Varanda gourmet",
+      "Sala de estar ampla",
+      "Lareira",
+      "Garagem para 4 carros"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1518759694708-36a7f31746c9?auto=format&fit=crop&w=800&q=80"
+    ],
+    "createdAt": "2026-05-08T18:00:42-03:00",
+    "updatedAt": "2026-05-08T18:00:42-03:00",
+    "sold": false,
+    "soldAt": null
+  },
+  {
+    "id": 6,
+    "titulo": "Flat Luxo - Balneário Camboriú",
+    "type": "Flat",
+    "location": "Balneário Camboriú",
+    "neighborhood": "Centro",
+    "city": "Balneário Camboriú",
+    "state": "SC",
+    "zipCode": "88330-000",
+    "price": 750000,
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "area": 95,
+    "totalArea": 95,
+    "description": "Flat decorado com vista para o mar, pronto para morar ou investir. Localização premium em Balneário Camboriú.",
+    "features": [
+      "Vista mar",
+      "Decorado",
+      "Mobiliado",
+      "Elevador",
+      "Piscina",
+      "Academia",
+      "Sauna",
+      "Espaço gourmet"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1502672260266-47c0c8b3a1a5?auto=format&fit=crop&w=800&q=80"
+    ],
+    "createdAt": "2026-05-08T18:00:42-03:00",
+    "updatedAt": "2026-05-08T18:00:42-03:00",
+    "sold": false,
+    "soldAt": null
+  }
+]

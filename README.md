@@ -21,12 +21,12 @@ MoisAuto-Website/
 ## Funcionalidades
 
 ### Páginas Principais
-- **Início**: Apresentação com destaque de itens
+- **Início**: Apresentação com destaque de itens e seções modernas
 - **Carros**: Lista com filtros por marca, preço e ano
 - **Casas**: Lista com filtros por tipo, localização e preço
 - **Detalhes**: Página individual para cada item com descrição completa
-- **Sobre**: História da empresa e equipe
-- **Contato**: Formulário de contato e informações
+- **Sobre**: História, estatísticas, missão/visão/valores e equipe (redesign moderno)
+- **Contato**: Formulário de contato, informações e mapa (redesign moderno)
 
 ### Recursos
 - ✅ 6 carros de exemplo
@@ -136,10 +136,29 @@ O site suporta upload de imagens através de Cloudflare Workers e R2 storage.
 - Múltiplas imagens por anúncio
 - Validação de tipo e tamanho de arquivo
 
+## Sistema de Dados JSON
+
+O projeto agora utiliza um sistema avançado de dados baseado em JSON:
+
+### 📁 Arquivos de Dados
+- `data/cars.json` - Base de dados dos carros
+- `data/houses.json` - Base de dados das casas
+
+### 🔄 Funcionalidades
+- ✅ **Fonte de dados JSON** - Todos os dados vêm de arquivos estruturados
+- ✅ **CRUD automático** - Modificações são salvas automaticamente
+- ✅ **Persistência inteligente** - Sistema de merge entre dados originais e modificações
+- ✅ **Backup automático** - Dados originais preservados
+- ✅ **Fallback robusto** - Recuperação automática em caso de erros
+
+### 📖 Documentação Detalhada
+Consulte `JSON_SYSTEM_README.md` para documentação completa do sistema.
+
 ## Tecnologias
 - HTML5
 - CSS3 (Flexbox, Grid, Variáveis)
 - JavaScript (Vanilla)
 - Font Awesome (ícones)
-- Cloudflare Workers
-- Cloudflare R2
+- **Sistema JSON proprietário** - Persistência avançada
+- Cloudflare Workers (futuro)
+- Cloudflare R2 (futuro)

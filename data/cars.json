@@ -1,0 +1,178 @@
+[
+  {
+    "id": 1,
+    "titulo": "Toyota Corolla 2022",
+    "brand": "Toyota",
+    "model": "Corolla",
+    "year": 2022,
+    "price": 125000,
+    "mileage": 35000,
+    "fuel": "Flex",
+    "transmission": "Automático",
+    "color": "Prata",
+    "description": "Corolla 2022 em excelente estado, único dono, revisões em dia na concessionária autorizada. Veículo completo com todos os opcionais.",
+    "features": [
+      "Ar-condicionado digital",
+      "Vidro elétrico",
+      "Trava elétrica",
+      "Airbag duplo",
+      "ABS",
+      "Direção hidráulica",
+      "Som original",
+      "Rodas de liga leve"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1621217907727-2b5a74d3e2a9?auto=format&fit=crop&w=800&q=80"
+    ],
+    "createdAt": "2026-05-08T18:00:42-03:00",
+    "updatedAt": "2026-05-08T18:00:42-03:00",
+    "sold": false,
+    "soldAt": null
+  },
+  {
+    "id": 2,
+    "titulo": "Honda Civic 2021",
+    "brand": "Honda",
+    "model": "Civic",
+    "year": 2021,
+    "price": 118000,
+    "mileage": 42000,
+    "fuel": "Flex",
+    "transmission": "Manual",
+    "color": "Preto",
+    "description": "Honda Civic 2021, completo, com sistema de som original e faróis de LED. Veículo muito econômico e confortável.",
+    "features": [
+      "Ar-condicionado",
+      "Vidro elétrico",
+      "Piloto automático",
+      "Som original",
+      "Faróis de LED",
+      "Sensor de ré",
+      "Computador de bordo"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1590479678048-250d8c4c5d2e?auto=format&fit=crop&w=800&q=80"
+    ],
+    "createdAt": "2026-05-08T18:00:42-03:00",
+    "updatedAt": "2026-05-08T18:00:42-03:00",
+    "sold": false,
+    "soldAt": null
+  },
+  {
+    "id": 3,
+    "titulo": "Ford Ranger 2020",
+    "brand": "Ford",
+    "model": "Ranger",
+    "year": 2020,
+    "price": 185000,
+    "mileage": 58000,
+    "fuel": "Diesel",
+    "transmission": "Automático",
+    "color": "Branco",
+    "description": "Ford Ranger 2020 4x4, cabine dupla, ideal para trabalho e lazer. Veículo robusto e confiável.",
+    "features": [
+      "4x4",
+      "Cabine dupla",
+      "Trailer brake",
+      "Ar-condicionado digital",
+      "Câmera de ré",
+      "Sensor de estacionamento",
+      "Controle de tração"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1583390786285-478a0b29e3fc?auto=format&fit=crop&w=800&q=80"
+    ],
+    "createdAt": "2026-05-08T18:00:42-03:00",
+    "updatedAt": "2026-05-08T18:00:42-03:00",
+    "sold": false,
+    "soldAt": null
+  },
+  {
+    "id": 4,
+    "titulo": "Chevrolet Cruze 2019",
+    "brand": "Chevrolet",
+    "model": "Cruze",
+    "year": 2019,
+    "price": 95000,
+    "mileage": 65000,
+    "fuel": "Flex",
+    "transmission": "Automático",
+    "color": "Cinza",
+    "description": "Chevrolet Cruze 2019, sedan médio, econômico e confortável. Perfeito para o dia a dia.",
+    "features": [
+      "Ar-condicionado",
+      "Computador de bordo",
+      "Vidro elétrico",
+      "Trava elétrica",
+      "Airbag",
+      "ABS",
+      "Direção elétrica"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1549618295-5a0e76d8e9d2?auto=format&fit=crop&w=800&q=80"
+    ],
+    "createdAt": "2026-05-08T18:00:42-03:00",
+    "updatedAt": "2026-05-08T18:00:42-03:00",
+    "sold": false,
+    "soldAt": null
+  },
+  {
+    "id": 5,
+    "titulo": "Volkswagen Golf 2018",
+    "brand": "Volkswagen",
+    "model": "Golf",
+    "year": 2018,
+    "price": 105000,
+    "mileage": 72000,
+    "fuel": "Flex",
+    "transmission": "Manual",
+    "color": "Vermelho",
+    "description": "Volkswagen Golf 2018, hatch médio esportivo, desempenho e elegância em um só veículo.",
+    "features": [
+      "Sport",
+      "Ar-condicionado",
+      "Direção elétrica",
+      "Teto solar",
+      "Rodas esportivas",
+      "Suspensão esportiva",
+      "Banco de couro"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1541447271487-2e70359d4131?auto=format&fit=crop&w=800&q=80"
+    ],
+    "createdAt": "2026-05-08T18:00:42-03:00",
+    "updatedAt": "2026-05-08T18:00:42-03:00",
+    "sold": false,
+    "soldAt": null
+  },
+  {
+    "id": 6,
+    "titulo": "BMW Série 3 2020",
+    "brand": "BMW",
+    "model": "Série 3",
+    "year": 2020,
+    "price": 245000,
+    "mileage": 38000,
+    "fuel": "Flex",
+    "transmission": "Automático",
+    "color": "Azul",
+    "description": "BMW Série 3 2020, sedan premium, acabamento de primeira qualidade. Experiência de dirigir única.",
+    "features": [
+      "Teto solar",
+      "Banco de couro",
+      "Piloto automático",
+      "Navegação GPS",
+      "Câmera 360°",
+      "Faróis full LED",
+      "Som premium",
+      "Controle de cruzeiro adaptativo"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1555216619-3decf8a245b7?auto=format&fit=crop&w=800&q=80"
+    ],
+    "createdAt": "2026-05-08T18:00:42-03:00",
+    "updatedAt": "2026-05-08T18:00:42-03:00",
+    "sold": false,
+    "soldAt": null
+  }
+]
