@@ -54,14 +54,11 @@ body {
 }
 
 .logo-image {
-    height: 120px;
+    height: 100px;
     width: auto;
     max-width: 250px;
     object-fit: contain;
     transition: var(--transition);
-    background: white;
-    padding: 8px;
-    border-radius: 8px;
 }
 
 .logo-image:hover {
@@ -844,7 +841,8 @@ section {
 }
 
 .admin-logo img {
-    filter: brightness(0) invert(1); /* Torna a imagem branca para contrastar com o fundo escuro */
+    /* O logo agora é transparente. Se necessário, ajuste o filtro para visibilidade no fundo escuro. */
+    filter: brightness(0) invert(1);
 }
 
 .admin-nav ul {
@@ -1368,7 +1366,7 @@ section {
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
     .logo-image {
-        height: 80px;
+        height: 60px;
         max-width: 200px;
     }
 
