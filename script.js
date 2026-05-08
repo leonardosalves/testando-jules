@@ -1,3 +1,17 @@
+// Utility function for debouncing expensive operations
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const context = this;
+        const later = () => {
+            clearTimeout(timeout);
+            func.apply(context, args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
 // Mapeamento de marcas para modelos de carros
 const carModels = {
     "Toyota": ["Corolla", "Camry", "Hilux", "Etios", "RAV4", "Yaris", "Prius", "SW4"],
@@ -276,12 +290,15 @@ const demoHouses = [
 let cars = JSON.parse(localStorage.getItem('cars')) || demoCars;
 let houses = JSON.parse(localStorage.getItem('houses')) || demoHouses;
 
+// Reusable formatter instance for better performance
+const priceFormatter = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+});
+
 // Formata preço
 function formatPrice(price) {
-    return new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-    }).format(price);
+    return priceFormatter.format(price);
 }
 
 function isSold(item) {
@@ -295,7 +312,7 @@ function createCarCard(car) {
         <div class="item-card" data-id="${car.id}">
             <div class="item-image">
                 <a href="car-detail.html?id=${car.id}" aria-label="Ver detalhes de ${car.title}">
-                    <img src="${car.image}" alt="${car.title}">
+                    <img src="${car.image}" alt="${car.title}" loading="lazy">
                 </a>
                 ${soldBadge}
             </div>
@@ -322,7 +339,7 @@ function createHouseCard(house) {
         <div class="item-card" data-id="${house.id}">
             <div class="item-image">
                 <a href="house-detail.html?id=${house.id}" aria-label="Ver detalhes de ${house.title}">
-                    <img src="${house.image}" alt="${house.title}">
+                    <img src="${house.image}" alt="${house.title}" loading="lazy">
                 </a>
                 ${soldBadge}
             </div>
@@ -652,7 +669,7 @@ function setupSearchAutocomplete() {
         searchExpanded.parentNode.insertBefore(autocompleteContainer, searchExpanded.nextSibling);
     }
     
-    searchInput.addEventListener('input', function() {
+    searchInput.addEventListener('input', debounce(function() {
         const term = this.value.toLowerCase().trim();
         if (term.length < 2) {
             autocompleteContainer.classList.add('hidden');
@@ -676,7 +693,7 @@ function setupSearchAutocomplete() {
         } else {
             autocompleteContainer.classList.add('hidden');
         }
-    });
+    }, 300));
     
     document.addEventListener('click', e => {
         if (!e.target.closest('.search-box')) {
@@ -1693,7 +1710,9 @@ function initializeCarFilters() {
     const yearFilter = document.getElementById('yearFilter');
     const clearFilters = document.getElementById('clearFilters');
 
-    if (carSearch) carSearch.addEventListener('input', filterCars);
+    const debouncedFilterCars = debounce(filterCars, 300);
+
+    if (carSearch) carSearch.addEventListener('input', debouncedFilterCars);
     if (brandFilter) brandFilter.addEventListener('change', filterCars);
     if (priceFilter) priceFilter.addEventListener('change', filterCars);
     if (yearFilter) yearFilter.addEventListener('change', filterCars);
@@ -1715,10 +1734,12 @@ function initializeHouseFilters() {
     const priceFilter = document.getElementById('priceFilter');
     const clearFilters = document.getElementById('clearFilters');
 
-    if (houseSearch) houseSearch.addEventListener('input', filterHouses);
+    const debouncedFilterHouses = debounce(filterHouses, 300);
+
+    if (houseSearch) houseSearch.addEventListener('input', debouncedFilterHouses);
     if (typeFilter) typeFilter.addEventListener('change', filterHouses);
     if (locationFilter) locationFilter.addEventListener('change', filterHouses);
-    if (locationSearch) locationSearch.addEventListener('input', filterHouses);
+    if (locationSearch) locationSearch.addEventListener('input', debouncedFilterHouses);
     if (priceFilter) priceFilter.addEventListener('change', filterHouses);
     if (clearFilters) clearFilters.addEventListener('click', () => {
         if (houseSearch) houseSearch.value = '';
