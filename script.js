@@ -550,7 +550,7 @@ function renderCarDetail() {
                         <div class="ad-share-actions" style="margin: 10px 0 16px;">
                             <div style="font-weight:800; margin-bottom:8px;">Anunciar este carro</div>
                             <div style="display:flex; flex-wrap:wrap; gap:10px;">
-                                <button class="btn-share" type="button" onclick="openTemplateModal('car')">
+                                <button class="btn-share" type="button" onclick="abrirCardModal()">
                                     <i class="fas fa-mobile-alt"></i> GERAR CARD STORIES (NOVO)
                                 </button>
                                 <button class="btn btn-primary" type="button" onclick="downloadAdPng('car', ${car.id}, '1080x1350')">
@@ -646,7 +646,7 @@ function renderHouseDetail() {
                         <div class="ad-share-actions" style="margin: 10px 0 16px;">
                             <div style="font-weight:800; margin-bottom:8px;">Anunciar este imóvel</div>
                             <div style="display:flex; flex-wrap:wrap; gap:10px;">
-                                <button class="btn-share" type="button" onclick="openTemplateModal('house')">
+                                <button class="btn-share" type="button" onclick="abrirCardModalHouse()">
                                     <i class="fas fa-mobile-alt"></i> GERAR CARD STORIES (NOVO)
                                 </button>
                                 <button class="btn btn-primary" type="button" onclick="downloadAdPng('house', ${house.id}, '1080x1350')">
