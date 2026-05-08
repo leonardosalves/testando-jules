@@ -54,12 +54,14 @@ body {
 }
 
 .logo-image {
-    height: 60px;
+    height: 120px;
     width: auto;
-    max-width: 200px;
+    max-width: 250px;
     object-fit: contain;
     transition: var(--transition);
-    background: transparent;
+    background: white;
+    padding: 8px;
+    border-radius: 8px;
 }
 
 .logo-image:hover {
@@ -1366,8 +1368,8 @@ section {
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
     .logo-image {
-        height: 45px;
-        max-width: 150px;
+        height: 80px;
+        max-width: 200px;
     }
 
     .nav-list {
@@ -1468,7 +1470,7 @@ section {
     }
 
     .admin-logo img {
-        height: 35px !important;
+        height: 60px !important;
     }
 
     .admin-logo h2 {
