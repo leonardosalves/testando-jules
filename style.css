@@ -574,6 +574,27 @@ section {
         gap: 15px;
         margin-top: 40px;
     }
+
+    .contact-card {
+        padding: 25px 15px;
+        font-size: 0.9rem;
+    }
+
+    .contact-card i, .contact-card img {
+        font-size: 2.5rem;
+        width: 2.5rem;
+        height: 2.5rem;
+        margin-bottom: 15px;
+    }
+
+    .contact-card h3 {
+        font-size: 1.2rem;
+        margin-bottom: 8px;
+    }
+
+    .contact-card p {
+        font-size: 0.9rem;
+    }
 }
 
 /* ===== FOOTER ===== */
